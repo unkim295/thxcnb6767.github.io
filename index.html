@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Glow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #050505;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            touch-action: none;
+        }
+
+        #neonText {
+            position: absolute;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            white-space: nowrap;
+            user-select: none;
+            cursor: pointer;
+            
+            /* 彩色動態漸變 */
+            background: linear-gradient(90deg, #ff007f, #ff7b00, #ffee00, #00f0ff, #b000ff, #ff007f);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 3s ease infinite;
+
+            /* 霓虹冒光效果 */
+            filter: drop-shadow(0 0 15px rgba(255, 0, 128, 0.8))
+                    drop-shadow(0 0 35px rgba(0, 240, 255, 0.6));
+        }
+
+        @keyframes rainbowFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="neonText">Fuck you</div>
+
+    <script>
+        const el = document.getElementById("neonText");
+        
+        let x = 30;
+        let y = 30;
+        // 隨機初始移動速度與方向
+        let vx = 2.5;
+        let vy = 3.2;
+
+        function animate() {
+            const winWidth = window.innerWidth;
+            const winHeight = window.innerHeight;
+            const textWidth = el.offsetWidth;
+            const textHeight = el.offsetHeight;
+
+            x += vx;
+            y += vy;
+
+            // 撞牆隨機微調反彈角度，呈現不規則移動
+            if (x + textWidth >= winWidth) {
+                x = winWidth - textWidth;
+                vx = -(Math.random() * 2 + 1.8);
+            } else if (x <= 0) {
+                x = 0;
+                vx = Math.random() * 2 + 1.8;
+            }
+
+            if (y + textHeight >= winHeight) {
+                y = winHeight - textHeight;
+                vy = -(Math.random() * 2 + 1.8);
+            } else if (y <= 0) {
+                y = 0;
+                vy = Math.random() * 2 + 1.8;
+            }
+
+            el.style.transform = `translate(${x}px, ${y}px)`;
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = animate;
+    </script>
+</body>
+</html>
