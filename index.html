@@ -13,6 +13,7 @@
             height: 100vh;
             position: relative;
             touch-action: none;
+            animation:flashBg 0.12s infinite alternate;
         }
         .neon-text {
             position: absolute;
@@ -43,6 +44,14 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+        @keyframes flashBg {
+    0%   { background-color: #000000; }
+    25%  { background-color: #2b0036; }
+    50%  { background-color: #ffffff; }
+    75%  { background-color: #001a33; }
+    100% { background-color: #ff0055; }
+}
+
     </style>
 </head>
 <body>
